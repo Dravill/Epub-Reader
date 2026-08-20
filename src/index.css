@@ -622,7 +622,9 @@ body {
 .reader-container {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 65px);
+  height: calc(100vh - 65px);
+  max-height: calc(100vh - 65px);
+  overflow: hidden;
   background: var(--reader-bg);
   color: var(--reader-text);
   position: relative;
@@ -630,8 +632,9 @@ body {
 }
 
 .reader-toolbar {
+  flex-shrink: 0;
   position: sticky;
-  top: 65px;
+  top: 0;
   z-index: 90;
   display: flex;
   align-items: center;

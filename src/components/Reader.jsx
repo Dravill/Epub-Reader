@@ -36,7 +36,7 @@ export function Reader({
     setCurrentChapterIndex(initialChapterIndex);
   }, [initialChapterIndex]);
 
-  // Global Keyboard Shortcuts for Navigation, Scrolling, and Auto-scroll
+  // Global Keyboard Shortcuts for Navigation & Arrow Key Scrolling
   useEffect(() => {
     const handleKeyDown = (e) => {
       const activeTag = document.activeElement ? document.activeElement.tagName.toUpperCase() : '';
@@ -54,14 +54,18 @@ export function Reader({
           break;
         case 'ArrowDown':
           e.preventDefault();
-          if (container) {
-            container.scrollTop += 90;
+          if (container && container.scrollHeight > container.clientHeight) {
+            container.scrollTop += 100;
+          } else {
+            window.scrollBy(0, 100);
           }
           break;
         case 'ArrowUp':
           e.preventDefault();
-          if (container) {
-            container.scrollTop -= 90;
+          if (container && container.scrollHeight > container.clientHeight) {
+            container.scrollTop -= 100;
+          } else {
+            window.scrollBy(0, -100);
           }
           break;
         case 'ArrowRight':
@@ -180,6 +184,7 @@ export function Reader({
       if (readerContainerRef.current) {
         readerContainerRef.current.scrollTop = 0;
       }
+      window.scrollTo(0, 0);
     }
   };
 

@@ -5,7 +5,7 @@ export function AutoScrollWidget({ containerRef, isPlaying, onTogglePlay, speed,
   const animFrameId = useRef(null);
 
   useEffect(() => {
-    if (!isPlaying || !containerRef.current) return;
+    if (!isPlaying) return;
 
     let lastTime = performance.now();
 
@@ -13,15 +13,22 @@ export function AutoScrollWidget({ containerRef, isPlaying, onTogglePlay, speed,
       const delta = (now - lastTime) / 1000;
       lastTime = now;
 
-      if (containerRef.current) {
-        // Continuous scroll speed in pixels per second
-        const pxPerSec = 55 * speed;
-        containerRef.current.scrollTop += pxPerSec * delta;
+      const container = containerRef.current;
+      const pxPerSec = 60 * speed;
 
-        // Check if reached end of chapter
-        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+      if (container && container.scrollHeight > container.clientHeight) {
+        container.scrollTop += pxPerSec * delta;
+        const { scrollTop, scrollHeight, clientHeight } = container;
         if (scrollTop + clientHeight >= scrollHeight - 2) {
-          onTogglePlay(); // Stop auto scroll when end of chapter is reached
+          onTogglePlay();
+          return;
+        }
+      } else {
+        window.scrollBy(0, pxPerSec * delta);
+        const { scrollY, innerHeight } = window;
+        const docHeight = document.documentElement.scrollHeight;
+        if (scrollY + innerHeight >= docHeight - 2) {
+          onTogglePlay();
           return;
         }
       }
