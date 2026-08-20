@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npm rebuild esbuild"
   },
   "dependencies": {
     "idb-keyval": "^6.2.1",
